@@ -12,8 +12,14 @@ class ToDoListViewController: UITableViewController {
 
     var itemArray=["Find Mike", "Buy Egges", "Destroy Demogorgon"]
     
+    let defaults = UserDefaults.standard // uygulama kapatıldıgında eklenen itemleri kaydetme
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] { // uygulama kapatıldıgında eklenen itemleri kaydetme
+            itemArray=items
+        }
     }
 
     //MARK - Tableview Datasource Methods
@@ -61,6 +67,9 @@ class ToDoListViewController: UITableViewController {
             //what will happen once the user clicks the add item button on our UIAlert
             
             self.itemArray.append(textField.text!)
+            
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray") // uygulama kapatıldıgında eklenen itemleri kaydetme
+            
             self.tableView.reloadData()
         }
         
